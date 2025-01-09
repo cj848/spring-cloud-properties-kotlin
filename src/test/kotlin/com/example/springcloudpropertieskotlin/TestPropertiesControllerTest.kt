@@ -27,31 +27,6 @@ class TestPropertiesControllerTest {
             }
     }
 
-    private fun test(uri: String) {
-        client.get()
-            .uri(uri)
-            .exchange()
-            .expectStatus().isOk
-            .expectBody(object : ParameterizedTypeReference<Map<String, String>>() {})
-            .value {
-                assertEquals(mapOf("property1" to null, "property2" to null), it)
-            }
-
-        client.post()
-            .uri("/actuator/refresh")
-            .exchange()
-            .expectStatus().isOk
-
-        client.get()
-            .uri(uri)
-            .exchange()
-            .expectStatus().isOk
-            .expectBody(object : ParameterizedTypeReference<Map<String, String>>() {})
-            .value {
-                assertEquals(mapOf("property1" to "test5", "property2" to "test6"), it)
-            }
-    }
-
     @Test
     fun `testKotlin fail if bug not found`() {
         client.get()
