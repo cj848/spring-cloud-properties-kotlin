@@ -1,0 +1,27 @@
+spring:
+  application:
+    name: configserver
+  profiles:
+    active: composite
+  config:
+    import: optional:configserver:http://localhost:8080
+  cloud:
+    config:
+      server:
+        composite:
+          - type: native
+            search-locations: optional:classpath:/config/
+        bootstrap: true
+      name: configserver
+      profile: composite
+      enabled: true
+  jackson:
+    serialization:
+        fail-on-empty-beans: false
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+         - health
+         - refresh
